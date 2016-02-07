@@ -24,6 +24,11 @@ NRPE Plugins for Nagios/Icinga
 - Swift:
 	- client-os-controller-nova/usr/lib/nagios/plugins/check_swift
 
+
+- Formed as nagios-plugin in https://github.com/eumel8/nagios.git
+
+- Example conf to deploy and monitor DevStack instance with puppet
+
 License
 	 nagios-openstack-monitoring
 	 (https://github.com/rakesh-patnaik/nagios-openstack-monitoring)
