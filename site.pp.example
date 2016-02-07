@@ -1,0 +1,59 @@
+node default {
+
+ class {'nagios::server':
+    engine        => 'icinga',
+
+    http_users    => {
+      admin  => { 'password' => hiera('nagiosadmin') },
+    },
+
+    nd => {
+      'openstack.lab.corp' => {
+        'ip'       => '127.0.0.1',
+        'domain'   => 'lab.corp',
+        'services' => {
+          'Ping'                        => { check => 'check_ping!200.0,60%!500.0,95%'},
+          'Nova Scheduler Proc'         => { check => 'check_nrpe!check_proc!1:2 1:2 "nova-scheduler"'},
+          'Nova Conductor Proc'         => { check => 'check_nrpe!check_proc!1:2 1:2 "nova-conductor"'},
+          'Nova Objectstore Proc'       => { check => 'check_nrpe!check_proc!1:2 1:2 "nova-objectstore"'},
+          'Nova API Proc'               => { check => 'check_nrpe!check_proc!1:2 1:2 "nova-api"'},
+          'Nova API'                    => { check => 'check_nrpe!check_nova_api!"http://127.0.0.1:5000/v2.0" "demo" "demo" "password"'},
+          'Nova Cinder Volume Proc'     => { check => 'check_nrpe!check_proc!1:2 1:2 "cinder-volume"'},
+          'Nova Quantum Server Proc'    => { check => 'check_nrpe!check_proc!1:2 1:2 "quantum-server"'},
+          'Neutron API'                 => { check => 'check_nrpe!check_neutron_api!"http://127.0.0.1:5000/v2.0" "demo" "demo" "password"'},
+          'Swift Proxy Server Proc'     => { check => 'check_nrpe!check_proc!1:2 1:2 "/usr/bin/swift-proxy-server"'},
+          'Swift API'                   => { check => 'check_nrpe!check_swift_api!"http://127.0.0.1:5000/v2.0" "demo" "demo" "password"'},
+          'Swift Ring MD5'              => { check => 'check_nrpe!check_swift_object_servers'},
+          'Swift Dispersion Report'     => { check => 'check_nrpe!check_swift_dispersion_report'},
+          'Swift du'                    => { check => 'check_nrpe!check_swift_du'},
+          'Swift Account Server Proc'   => { check => 'check_nrpe!check_proc!1:2 1:2 "/usr/bin/swift-account-server"'},
+          'Swift Container Server Proc' => { check => 'check_nrpe!check_proc!1:2 1:2 "/usr/bin/swift-container-server"'},
+          'Swift Object Server Proc'    => { check => 'check_nrpe!check_proc!1:2 1:2 "/usr/bin/swift-object-server"'},
+          'Keystone Proc'               => { check => 'check_nrpe!check_proc!1:2 1:2 "keystone-all"'},
+          'Keystone API'                => { check => 'check_nrpe!check_keystone!"http://127.0.0.1/v2.0" "demo" "demo" "password"'},
+          'Cinder API Proc'             => { check => 'check_nrpe!check_proc!1:2 1:2 "cinder-api"'},
+          'Cinder Scheduler Proc'       => { check => 'check_nrpe!check_proc!1:2 1:2 "cinder-scheduler"'},
+          'Cinder API'                  => { check => 'check_nrpe!check_cinder_api!"http://10.2.251.130:5000/v2.0" "demo" "demo" "password"'},
+          'Cinder Scheduler Conn'       => { check => 'check_nrpe!check_cinder_scheduler_connectivity'},
+          'KVM Instances'               => { check => 'check_nrpe!check_kvm_instances'},
+          'KVM Memory'                  => { check => 'check_nrpe!check_kvm_memory!1:2 1:2'},
+          'KVM CPU'                     => { check => 'check_nrpe!check_kvm_cpustats!1:2 1:2'},
+          'Quantum Agent Proc'          => { check => 'check_nrpe!check_proc!1:2 1:2 "quantum-plugin-openvswitch-agent"'},
+          'Nova Compute Proc'           => { check => 'check_nrpe!check_nova_compute_proc!1:2 1:2 "nova-compute"'},
+          'Nova Network Proc'           => { check => 'check_nrpe!check_nova_network_proc!1:2 1:2 "nova-network"'},
+          'Nova API Metadata Proc'      => { check => 'check_nrpe!check_proc!1:2 1:2 "nova-api-metadata"'},
+          'Quantum Agent Proc'          => { check => 'check_nrpe!check_proc!1:2 1:2 "quantum-plugin-openvswitch-agent"'},
+          'Glance Registry Proc'        => { check => 'check_nrpe!check_proc!1:2 1:2 "glance-registry"'},
+          'Glance API Proc'             => { check => 'check_nrpe!check_proc!1:2 1:2 "glance-api"'},
+          'Glance API'                  => { check => 'check_nrpe!check_glance_api!"http://127.0.0.1:5000/v2.0" "demo" "demo" "password"'},
+          'Quantum Metadata Agent Proc' => { check => 'check_nrpe!check_proc!1:2 1:2 "quantum-metadata-agent"'},
+          'Quantum DHCP Agent Proc'     => { check => 'check_nrpe!check_proc!1:2 1:2 "quantum-dhcp-agent"'},
+          'Quantum L3 Agent Proc'       => { check => 'check_nrpe!check_proc!1:2 1:2 "quantum-l3-agent"'},
+          'Heat API Proc'               => { check => 'check_nrpe!check_proc!1:2 1:2 "heat-api"'},
+          'Heat Engine Proc'            => { check => 'check_nrpe!check_proc!1:2 1:2 "heat-engine"'},
+        }
+      }
+    }
+  }
+}
+
